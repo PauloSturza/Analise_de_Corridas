@@ -37,3 +37,16 @@ def historico_corridas():
 
     conn.close()
     return resultado
+
+def total_corrido_tenis():
+    conn = sqlite3.connect("corridas.db")
+    cursor = conn.cursor()
+    cursor.execute("""
+    SELECT t.tenis, SUM(c.distancia) AS distancia_corrida, SUM(c.tempo) AS tempo_corrido 
+    FROM corridas AS c
+    JOIN tenis AS t ON  c.tenis_id = T.tenis_id
+    GROUP BY t.tenis_id
+    ORDER BY distancia_corrida DESC
+    """)
+    resultado = cursor.fetchall()
+    return resultado

@@ -1,5 +1,5 @@
 import dearpygui.dearpygui as dpg
-from database import iniciar_banco, distancia_total_corrida, lista_tenis, lancar_corrida_db, historico_corridas
+from database import iniciar_banco, distancia_total_corrida, lista_tenis, lancar_corrida_db, historico_corridas, total_corrido_tenis
 
 largura = 600
 altura = 500
@@ -21,23 +21,45 @@ def tela_inicial():
 
 def atualizar_tabela_interface():
     dpg.delete_item("container_tabela",children_only=True)
+    dpg.delete_item("container_tabela_tenis",children_only=True)
     historico = historico_corridas()
+    total_tenis = total_corrido_tenis()
     
     if not historico:
         dpg.add_text("Não há corridas!", parent="container_tabela")
         return
+    if not total_tenis:
+        dpg.add_text("Não há corridas!", parent="container_tabela")
+        return
+    
+    dpg.add_text("Tabela de Corridas", parent="container_tabela")
     with dpg.table(
         header_row=True,
         parent="container_tabela",
         borders_innerH=True,borders_outerH=True,borders_innerV=True, borders_outerV=True
-    ):
+        ):
         dpg.add_table_column(label="Data")
         dpg.add_table_column(label="Tênis")
         dpg.add_table_column(label="Distância")
         dpg.add_table_column(label="Tempo")
         for data, tenis, distancia, tempo in historico:
             with dpg.table_row():
-                dpg.add_text(data)
+                dpg.add_text(formata_data(data))
+                dpg.add_text(tenis)
+                dpg.add_text(distancia)
+                dpg.add_text(tempo)
+
+    dpg.add_text("Total corrido por tênis", parent="container_tabela_tenis")
+    with dpg.table(
+        header_row=True,
+        parent="container_tabela_tenis",
+        borders_innerH=True,borders_outerH=True,borders_innerV=True, borders_outerV=True
+    ):
+        dpg.add_table_column(label="Tênis")
+        dpg.add_table_column(label="Distância Total")
+        dpg.add_table_column(label="Tempo Total")
+        for tenis, distancia, tempo in total_tenis:
+            with dpg.table_row():
                 dpg.add_text(tenis)
                 dpg.add_text(distancia)
                 dpg.add_text(tempo)
@@ -55,6 +77,11 @@ def lancar_corrida():
     tenis_id = MAPA_TENIS[tenis]
     lancar_corrida_db(tenis_id, distancia, tempo, data)
 
+def formata_data(data):
+    # yyyy-mm-dd --> dd/mm/yyyy
+    data_formatada = data[-2:] + "/" + data[5:7] + "/" + data[0:4]
+    return data_formatada
+
 dpg.create_context()
 
 with dpg.window(label="Inicio", tag='tela_inicial', width=largura, height=altura):
@@ -64,7 +91,8 @@ with dpg.window(label="Inicio", tag='tela_inicial', width=largura, height=altura
         dpg.add_text(total_corrido, tag="total_corrido")
     dpg.add_table()
     dpg.add_group(tag="container_tabela")
-    dpg.add_button(label="Lançar Corrida", callback=tela_lancamento, width=50, height=50)
+    dpg.add_group(tag="container_tabela_tenis")
+    dpg.add_button(label="Lançar Corrida", callback=tela_lancamento, width=125, height=40)
 
 with dpg.window(label="Lançamento", tag='tela_lancamento', width=largura, height=altura, show=False):
     with dpg.group(horizontal=True):

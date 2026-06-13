@@ -15,11 +15,12 @@ def iniciar_banco():
     cursor.execute("SELECT * FROM corridas")
     resultado = cursor.fetchall()
     if len(resultado) == 0:
-        cursor.execute("INSERT INTO tenis VALUES (NULL,'nimbus')")
-        cursor.execute("INSERT INTO tenis VALUES (NULL,'fila')")
-        cursor.execute("INSERT INTO corridas VALUES (NULL, 1, 10, 55, '2026-01-01')")
-        cursor.execute("INSERT INTO corridas VALUES (NULL, 1, 9.5, 52, '2026-01-02')")
-        cursor.execute("INSERT INTO corridas VALUES (NULL, 1, 9.8, 53, '2026-01-03')")
+        cursor.execute("INSERT INTO tenis VALUES (NULL,'Asics Nimbus 25')")
+        cursor.execute("INSERT INTO tenis VALUES (NULL,'Fila Carbon 2')")
+        cursor.execute("INSERT INTO tenis VALUES (NULL,'Mizuno Wave Rider 27')")
+        #cursor.execute("INSERT INTO corridas VALUES (NULL, 1, 10, 55, '2026-01-01')")
+        #cursor.execute("INSERT INTO corridas VALUES (NULL, 1, 9.5, 52, '2026-01-02')")
+        #cursor.execute("INSERT INTO corridas VALUES (NULL, 1, 9.8, 53, '2026-01-03')")
 
     conn.commit()
     conn.close()
