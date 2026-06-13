@@ -18,9 +18,10 @@ def iniciar_banco():
         cursor.execute("INSERT INTO tenis VALUES (NULL,'Asics Nimbus 25')")
         cursor.execute("INSERT INTO tenis VALUES (NULL,'Fila Carbon 2')")
         cursor.execute("INSERT INTO tenis VALUES (NULL,'Mizuno Wave Rider 27')")
-        #cursor.execute("INSERT INTO corridas VALUES (NULL, 1, 10, 55, '2026-01-01')")
-        #cursor.execute("INSERT INTO corridas VALUES (NULL, 1, 9.5, 52, '2026-01-02')")
-        #cursor.execute("INSERT INTO corridas VALUES (NULL, 1, 9.8, 53, '2026-01-03')")
+        cursor.execute("INSERT INTO corridas VALUES (NULL, 2, 9510, 3207, '2026-05-12')")
+        cursor.execute("INSERT INTO corridas VALUES (NULL, 1, 9270, 3501, '2026-050-24')")
+        cursor.execute("INSERT INTO corridas VALUES (NULL, 3, 8700, 3304, '2026-05-20')")
+        cursor.execute("INSERT INTO corridas VALUES (NULL, 2, 10010, 3216, '2026-05-14')")
 
     conn.commit()
     conn.close()

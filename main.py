@@ -29,7 +29,7 @@ def atualizar_tabela_interface():
         dpg.add_text("Não há corridas!", parent="container_tabela")
         return
     if not total_tenis:
-        dpg.add_text("Não há corridas!", parent="container_tabela")
+        dpg.add_text("Não há tenis cadastrados!", parent="container_tabela_tenis")
         return
     
     dpg.add_text("Tabela de Corridas", parent="container_tabela")
@@ -73,9 +73,11 @@ def lancar_corrida():
     tenis = dpg.get_value("tenis_usado")
     distancia = dpg.get_value("distancia")
     tempo = dpg.get_value("hora")*3600 + dpg.get_value("minuto")*60 + dpg.get_value("segundo")
-    data = dpg.get_value("data")
+    dia = dpg.get_value("dia")
+    mes = dpg.get_value("mes")
+    ano = dpg.get_value("ano")
     tenis_id = MAPA_TENIS[tenis]
-    lancar_corrida_db(tenis_id, distancia, tempo, data)
+    lancar_corrida_db(tenis_id, distancia, tempo, str(ano) + "-" + str(mes) + "-" + str(dia))
 
 def formata_data(data):
     # yyyy-mm-dd --> dd/mm/yyyy
@@ -113,16 +115,21 @@ with dpg.window(label="Lançamento", tag='tela_lancamento', width=largura, heigh
     dpg.add_text("Tempo de Corrida:")
     with dpg.group(horizontal=True, tag="tempo"):
         dpg.add_text("Horas:")
-        dpg.add_input_int(tag="hora", default_value=0,width=100)
+        dpg.add_input_int(tag="hora", default_value=0, width=50, step=0)
         dpg.add_text("Minutos:")
-        dpg.add_input_int(tag="minuto", default_value=0,width=100)
+        dpg.add_input_int(tag="minuto", default_value=0, width=50, step=0)
         dpg.add_text("Segundos:")
-        dpg.add_input_int(tag="segundo", default_value=0,width=100)
+        dpg.add_input_int(tag="segundo", default_value=0, width=50, step=0)
     
     dpg.add_spacer()
+    dpg.add_text("Data:")
     with dpg.group(horizontal=True):
-        dpg.add_text("Data:")
-        dpg.add_input_text(tag="data", default_value="YYYY-MM-DD", width=150)
+        dpg.add_text("Dia:")
+        dpg.add_input_int(tag="dia", width=50, step=0)
+        dpg.add_text("Mês:")
+        dpg.add_input_int(tag="mes", width=50, step=0)
+        dpg.add_text("Ano:")
+        dpg.add_input_int(tag="ano", width=50, step=0)
 
     dpg.add_spacer()
     dpg.add_button(label="Lançar Corrida", callback=lancar_corrida, width=125, height=40)
